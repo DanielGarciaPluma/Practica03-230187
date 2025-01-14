@@ -38,15 +38,15 @@ app.get ('/actualizar', (req, res) => {
 //Ruta para ver el estado de la sesion
 app.get('/estado-sesion', (req, res) => {
     if (req.session.inicio){
-        const inicio = req.session.inicio;
-        const ultimoAcceso = req.session.ultimoAcceso;
+        const inicio = new Date(req.session.inicio); // Convertimos a objeto Date
+        const ultimoAcceso = new Date(req.session.ultimoAcceso); // Convertimos a objeto Date
         const ahora = new Date();
      
         //Calcular la antiguedad de la sesion
         const antiguedadMs = ahora - inicio;
-        const horas = Math.floor(antiguedadMs / (1000*60*60));
-        const minutos = Math.floor(antiguedadMs % (1000 * 60 * 60) / (1000 * 60));
-        const segundos = Math.floor(antiguedadMs % (1000 * 60) /1000);
+        const horas = Math.floor(antiguedadMs / (1000 * 60 * 60));
+        const minutos = Math.floor((antiguedadMs % (1000 * 60 * 60)) / (1000 * 60));
+        const segundos = Math.floor((antiguedadMs % (1000 * 60)) / 1000);
 
         //convertir la dechas al husos horario de  CDMX
         const inicioCDMX = moment(inicio).tz('America/mexico_City').format('YYY-MM-DD HH:mm:ss');
